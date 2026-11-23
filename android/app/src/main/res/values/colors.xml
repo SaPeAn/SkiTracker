@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="surface">#f3f3f1</color>
+    <color name="card">#fcfcfb</color>
+    <color name="ink">#0b0b0b</color>
+    <color name="ink2">#52514e</color>
+    <color name="grid">#deddd8</color>
+    <color name="speed">#2a78d6</color>
+    <color name="hr">#eb6834</color>
+    <color name="alt">#1baf7a</color>
+    <color name="primary">#184f95</color>
+</resources>

@@ -1,0 +1,50 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+}
+
+// Ключ подписи лежит вне проекта; без него собирается только debug
+def ksFile = file(System.getenv('SKITRACKER_KEYSTORE_PROPS') ?: 'C:/Android-build/keystore/keystore.properties')
+def ks = new Properties()
+if (ksFile.exists()) ksFile.withInputStream { ks.load(it) }
+
+android {
+    namespace 'com.skitracker.app'
+    compileSdk 34
+    defaultConfig {
+        applicationId 'com.skitracker.app'
+        minSdk 24
+        targetSdk 34
+        versionCode 1
+        versionName '1.0'
+    }
+    signingConfigs {
+        release {
+            if (ks.storeFile) {
+                storeFile file(ks.storeFile)
+                storePassword ks.storePassword
+                keyAlias ks.keyAlias
+                keyPassword ks.keyPassword
+            }
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            if (ks.storeFile) signingConfig signingConfigs.release
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    kotlinOptions { jvmTarget = '17' }
+    testOptions { unitTests { includeAndroidResources = true } }
+}
+
+dependencies {
+    implementation 'androidx.core:core:1.13.1'
+    implementation 'org.osmdroid:osmdroid-android:6.1.18'
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.robolectric:robolectric:4.13'
+}
